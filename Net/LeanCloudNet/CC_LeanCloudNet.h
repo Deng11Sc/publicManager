@@ -12,7 +12,7 @@
 #import "CCQuery.h"
 
 ///表名
-#import "DY_LeanCloudUrl.h"
+#import "CC_LeanCloudUrl.h"
 
 ///创建网络表
 #import "GenerateTableManager.h"

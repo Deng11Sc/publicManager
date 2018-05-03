@@ -27,13 +27,13 @@
  */
 - (id)initSelectIsCollect:(NSString *)uniqueId;
 
-
 /*
  浏览记录
+ type传1为浏览图集，为2为浏览图片
  */
-- (id)initBrowserRecord:(id)subModel uniqueId:(NSString *)uniqueId;
+- (id)initBrowserRecord:(id)subModel uniqueId:(NSString *)uniqueId type:(NSInteger)browseType;
 ///查询自己有没有浏览过
-- (id)initIsBrowser:(NSString *)uniqueId;
+- (id)initIsBrowser:(NSString *)uniqueId type:(NSInteger)browseType;
 
 
 @end

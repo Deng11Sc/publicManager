@@ -9,19 +9,16 @@
 #import "NNSqliteHeader.h"
 #import "NNSqliteManager.h"
 
-#import "DY_OcrRecordModel.h"
-
 @implementation NNSqliteHeader
 
 +(void)init_sql
 {
-    [DY_OcrRecordModel initSqlite:nil];
     
 }
 
 +(void)clear
 {
-    [DY_OcrRecordModel delete_all_sqlName:nil];
+    
 }
 
 @end

@@ -862,6 +862,11 @@
     NSInteger pageNum = floor((scrollView.contentOffset.x + scrollView.bounds.size.width * 0.5) / scrollView.bounds.size.width);
     self.currentImageIndex = pageNum == self.imageCount ? pageNum - 1 : pageNum;
     [self updateIndexContent];
+    
+    if ([self.delegate respondsToSelector:@selector(photoBrowser:moveToImageIndex:)]) {
+        [self.delegate photoBrowser:self moveToImageIndex:self.currentImageIndex];
+    }
+    
 }
 
 #pragma mark    -   图片索引的显示内容和显隐逻辑

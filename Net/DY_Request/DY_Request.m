@@ -69,7 +69,7 @@
 /*
  浏览记录,uniqueId是用来查询是否曾经浏览过这条记录的
  */
-- (id)initBrowserRecord:(id)subModel uniqueId:(NSString *)uniqueId
+- (id)initBrowserRecord:(id)subModel uniqueId:(NSString *)uniqueId type:(NSInteger)browseType;
 {
     self = [super init];
     if (self) {
@@ -77,16 +77,22 @@
         DY_BrowseModel *model = [[DY_BrowseModel alloc] init];
         model.userId = SELF_USER_ID;
         model.uniqueId = uniqueId;
+        model.browseType = @(browseType);
         [self.query orderByDescending:@"updatedAt"];
         
         [self fatherModelWithClassName:URL_Browse_Model arr:@[model]];
-        [self pointerModelsWithClassName:URL_Tuji_model model:subModel subName:@"pointerBrowse"];
+        
+        if (browseType == 1) {
+            [self pointerModelsWithClassName:URL_Tuji_model model:subModel subName:@"pointerBrowse"];
+        } else if (browseType == 2) {
+            [self pointerModelsWithClassName:URL_Gallery_Model model:subModel subName:@"pointerBrowseGallery"];
+        }
     }
     return self;
 }
 
 ///查询自己有没有浏览过
-- (id)initIsBrowser:(NSString *)uniqueId
+- (id)initIsBrowser:(NSString *)uniqueId type:(NSInteger)browseType;
 {
     self = [super init];
     if (self) {
@@ -95,8 +101,14 @@
         [self requestWithFatherClass:[DY_BrowseModel class]];
         
         self.className = URL_Browse_Model;
-        AVObject *object = [AVObject objectWithClassName:URL_Tuji_model objectId:uniqueId];
-        [self whereKey:@"pointerBrowse" equal:object];
+        
+        if (browseType == 1) {
+            AVObject *object = [AVObject objectWithClassName:URL_Tuji_model objectId:uniqueId];
+            [self whereKey:@"pointerBrowse" equal:object];
+        } else if (browseType == 2) {
+            AVObject *object = [AVObject objectWithClassName:URL_Gallery_Model objectId:uniqueId];
+            [self whereKey:@"pointerBrowseGallery" equal:object];
+        }
         
         
     }

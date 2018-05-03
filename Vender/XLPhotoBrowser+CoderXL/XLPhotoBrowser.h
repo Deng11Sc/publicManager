@@ -25,6 +25,9 @@
  */
 - (void)photoBrowser:(XLPhotoBrowser *)browser clickActionSheetIndex:(NSInteger)actionSheetindex currentImageIndex:(NSInteger)currentImageIndex;
 
+- (void)photoBrowser:(XLPhotoBrowser *)browser moveToImageIndex:(NSInteger)currentImageIndex;
+
+
 @end
 
 @protocol XLPhotoBrowserDatasource <NSObject>
