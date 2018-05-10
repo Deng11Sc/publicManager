@@ -19,6 +19,7 @@
 ////torast提示
 +(void)showMessage:(NSString *)message;
 
+
 +(void)showTorast:(NSString *)torast;
 
 

@@ -10,6 +10,8 @@
 
 #import "DY_InputLoginView.h"
 
+#import "CC_LoginRequest.h"
+
 @interface DY_RegistController ()
 
 @property (nonatomic,strong)DY_InputLoginView *loginView;
@@ -96,28 +98,27 @@
     [self.loginView endEdit];
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    ///注册
-    AVUser *user = [AVUser user];// 新建 AVUser 对象实例
-    user.username = self.loginView.tf1.text;// 设置用户名
-    user.password =  self.loginView.tf2.text;// 设置密码
-    [user setObject:[NSString randomHeaderImageUrl] forKey:@"imageUrl"];
-    user.email = nil;// 设置邮箱
-    [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    
+    DY_UserInfoModel *userModel = [[DY_UserInfoModel alloc] init];
+    userModel.userSex = @"1";
+    userModel.imageUrl = [NSString randomHeaderImageUrl];
+    userModel.email = nil;
+    CC_LoginRequest *request = [[CC_LoginRequest alloc] initRegistWithUserName:self.loginView.tf1.text password:self.loginView.tf2.text UserInfoModel:userModel];
+    request.successful = ^(NSMutableArray *array, NSInteger code, id json) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        if (succeeded) {
-            // 注册成功
-            [NSObject showMessage:DYLocalizedString(@"Succeeded", @"注册成功")];
-            
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self dy_actionBack];
-            });
-            
-        } else {
-            // 失败的原因可能有多种，常见的是用户名已经存在。
-            [NSObject showMessage:DYLocalizedString(@"Register failure", @"注册失败")];
-        }
-    }];
+        [NSObject showMessage:DYLocalizedString(@"Succeeded", @"注册成功")];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self dy_actionBack];
+        });
+    };
+    request.failure = ^(NSString *error, NSInteger code) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        // 失败的原因可能有多种，常见的是用户名已经存在。
+        [NSObject showMessage:DYLocalizedString(@"Register failure", @"注册失败")];
 
+    };
+    [request registRequest];
+    
 }
 
 @end

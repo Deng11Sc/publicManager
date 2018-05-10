@@ -12,16 +12,12 @@ typedef void(^NNImageChooseCompleteBlock)(NSArray<UIImage *> *photos,NSArray *as
 
 @interface NNImageChooseObject : NSObject
 
+//只能选一张
 + (void)gotoChooseImageFrom:(UIViewController  *)from complete:(NNImageChooseCompleteBlock)blk;
 - (void)gotoChooseImageFrom:(UIViewController  *)from complete:(NNImageChooseCompleteBlock)blk;
 
+//自定义选多张
++ (void)gotoChooseImageFrom:(UIViewController  *)from maxCount:(NSInteger)count complete:(NNImageChooseCompleteBlock)blk;
+- (void)gotoChooseImageFrom:(UIViewController  *)from maxCount:(NSInteger)count complete:(NNImageChooseCompleteBlock)blk;
 
-+ (void)gotoChooseQRCodeImageFrom:(UIViewController *)from  complete:(NNImageChooseCompleteBlock)blk;
-- (void)gotoChooseQRCodeImageFrom:(UIViewController *)from  complete:(NNImageChooseCompleteBlock)blk;
-
-+ (void)gotoCustomerServiceImageFrom:(UIViewController *)from left:(NSInteger)left complete:(NNImageChooseCompleteBlock)blk;
-- (void)gotoCustomerServiceImageFrom:(UIViewController *)from left:(NSInteger)left complete:(NNImageChooseCompleteBlock)blk;
-
-+ (void)gotoChatRoomChooseImageFrom:(UIViewController  *)from complete:(NNImageChooseCompleteBlock)blk;
-- (void)gotoChatRoomChooseImageFrom:(UIViewController  *)from complete:(NNImageChooseCompleteBlock)blk;
 @end

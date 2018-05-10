@@ -16,4 +16,6 @@
     UILabel *alertLabel;
 }
 
+- (void)reloadCellular;
+
 @end

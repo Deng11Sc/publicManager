@@ -39,24 +39,20 @@
     [from presentViewController:imagePickerVc animated:YES completion:nil];
 }
 
-+ (void)gotoChatRoomChooseImageFrom:(UIViewController  *)from complete:(NNImageChooseCompleteBlock)blk
-{
++ (void)gotoChooseImageFrom:(UIViewController  *)from maxCount:(NSInteger)maxCount complete:(NNImageChooseCompleteBlock)blk {
     static NNImageChooseObject *obj = nil;
     obj = [[self alloc] init];
-    [obj gotoChatRoomChooseImageFrom:from complete:blk];
+    [obj gotoChooseImageFrom:from maxCount:maxCount complete:blk];
 }
-
-- (void)gotoChatRoomChooseImageFrom:(UIViewController  *)from complete:(NNImageChooseCompleteBlock)blk
-{
+- (void)gotoChooseImageFrom:(UIViewController  *)from maxCount:(NSInteger)maxCount complete:(NNImageChooseCompleteBlock)blk {
     self.completeBlock = blk;
-    TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:1 columnNumber:4 delegate:nil pushPhotoPickerVc:YES];
-//    imagePickerVc.naviBgColor = NavigationBarBgColor;
-//    imagePickerVc.naviTitleColor = NavigationBarTextColor;
-//    imagePickerVc.naviTitleFont = NavigationBarTextFont;
-//    imagePickerVc.barItemTextColor = mainColor;
-//    imagePickerVc.barItemTextFont = NavigationBarTextFont;
-//    imagePickerVc.oKButtonTitleColorNormal = mainColor;
-//    imagePickerVc.isChatRoom = YES;
+    TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:maxCount columnNumber:4 delegate:nil pushPhotoPickerVc:YES];
+    //    imagePickerVc.naviBgColor = NavigationBarBgColor;
+    //    imagePickerVc.naviTitleColor = NavigationBarTextColor;
+    //    imagePickerVc.naviTitleFont = NavigationBarTextFont;
+    //    imagePickerVc.barItemTextColor = mainColor;
+    //    imagePickerVc.barItemTextFont = NavigationBarTextFont;
+    //    imagePickerVc.oKButtonTitleColorNormal = mainColor;
     
     imagePickerVc.isStatusBarDefault = YES;
     imagePickerVc.allowPickingVideo = NO;
@@ -65,50 +61,8 @@
     [from presentViewController:imagePickerVc animated:YES completion:nil];
 }
 
-+ (void)gotoChooseQRCodeImageFrom:(UIViewController *)from  complete:(NNImageChooseCompleteBlock)blk {
-    static NNImageChooseObject *obj = nil;
-    obj = [[self alloc] init];
-    [obj gotoChooseQRCodeImageFrom:from complete:blk];
-}
-- (void)gotoChooseQRCodeImageFrom:(UIViewController *)from  complete:(NNImageChooseCompleteBlock)blk {
-    TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:1 columnNumber:4 delegate:nil pushPhotoPickerVc:NO];
-    imagePickerVc.allowPickingVideo = NO;
-    imagePickerVc.allowCrop = NO;
-//    imagePickerVc.naviBgColor = NavigationBarBgColor;
-//    imagePickerVc.naviTitleColor = NavigationBarTextColor;
-//    imagePickerVc.naviTitleFont = NavigationBarTextFont;
-//    imagePickerVc.barItemTextColor = mainColor;
-//    imagePickerVc.barItemTextFont = NavigationBarTextFont;
-//    imagePickerVc.oKButtonTitleColorNormal = mainColor;
-    imagePickerVc.didFinishPickingPhotosHandle = blk;
 
-    [from presentViewController:imagePickerVc animated:YES completion:^{
-        NSLog(@"Picker View Controller is presented");
-    }];
-}
 
-+ (void)gotoCustomerServiceImageFrom:(UIViewController *)from left:(NSInteger)left complete:(NNImageChooseCompleteBlock)blk {
-    static NNImageChooseObject *obj = nil;
-    obj = [[self alloc] init];
-//    [obj gotoChooseQRCodeImageFrom:from complete:blk];
-    [obj gotoCustomerServiceImageFrom:from left:left complete:blk];
-}
-- (void)gotoCustomerServiceImageFrom:(UIViewController *)from left:(NSInteger)left complete:(NNImageChooseCompleteBlock)blk {
-    TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:left columnNumber:4 delegate:nil pushPhotoPickerVc:NO];
-    imagePickerVc.allowPickingVideo = NO;
-    imagePickerVc.allowCrop = NO;
-//    imagePickerVc.naviBgColor = NavigationBarBgColor;
-//    imagePickerVc.naviTitleColor = NavigationBarTextColor;
-//    imagePickerVc.naviTitleFont = NavigationBarTextFont;
-//    imagePickerVc.barItemTextColor = mainColor;
-//    imagePickerVc.barItemTextFont = NavigationBarTextFont;
-//    imagePickerVc.oKButtonTitleColorNormal = mainColor;
-    imagePickerVc.didFinishPickingPhotosHandle = blk;
-    
-    [from presentViewController:imagePickerVc animated:YES completion:^{
-        NSLog(@"Picker View Controller is presented");
-    }];
-}
 
 
 @end

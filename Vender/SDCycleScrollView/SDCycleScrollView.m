@@ -36,8 +36,6 @@
 #import "SDWebImageManager.h"
 #import "UIImageView+WebCache.h"
 
-#import "UIViewController+AVOSCloud.h"
-
 #define kCycleScrollViewInitialPageControlDotSize CGSizeMake(10, 10)
 
 NSString * const ID = @"SDCycleScrollViewCell";

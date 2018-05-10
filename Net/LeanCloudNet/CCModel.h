@@ -6,7 +6,7 @@
 //  Copyright © 2018年 SongChang. All rights reserved.
 //
 
-#import "AVObject.h"
+#import <AVOSCloud/AVObject.h>
 
 @interface CCModel : AVObject
 

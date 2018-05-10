@@ -40,11 +40,11 @@
     
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     NSString *version = [ud objectForKey:@"DB_Version"];
-    if (![version isEqualToString:NNCurrentVersion]) {
+    if (![version isEqualToString:kCurrentSystemVersion]) {
         
         [[NNSqliteManager share] initNewSqlName:sqlName];
         
-        [ud setObject:NNCurrentVersion forKey:@"DB_Version"];
+        [ud setObject:kCurrentSystemVersion forKey:@"DB_Version"];
         [ud synchronize];
     }
 #endif

@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import <UShareUI/UShareUI.h>
+#import "CCThirdModel.h"
 
 typedef NS_ENUM(NSInteger,CCShareType) {
     CCShareTypeNormal=0,
+    CCShareTypeCherryGirls,
 };
 
 @interface CCShareManager : NSObject
@@ -51,6 +53,9 @@ typedef NS_ENUM(NSInteger,CCShareType) {
 //分享到各平台
 - (void)shareWebPageToPlatformType:(UMSocialPlatformType)platformType messageObject:(UMSocialMessageObject *)messageObject;
 
+
+///第三方登录
+- (void)getUserInfoForPlatform:(UMSocialPlatformType)platformType successful:(void (^)(CCThirdModel *thirdModel))successful;
 
 
 @end

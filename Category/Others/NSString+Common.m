@@ -7,7 +7,6 @@
 //
 
 #import "NSString+Common.h"
-#import "NSString+NNPath.h"
 
 
 @implementation NSString(Common)
@@ -45,6 +44,9 @@
 //获取七牛压缩图片
 - (NSString *)getSmallImageWithWidth:(CGFloat)width height:(CGFloat)height
 {
+    if (![self containsString:@"bkt.clouddn.com"]) {
+        return self;
+    }
     
     return [NSString stringWithFormat:@"%@?imageMogr2/thumbnail/%.fx%.f",[self getImageCompleteUrl],width,height];
     
@@ -69,7 +71,7 @@
     NSString *uid = [NSString nn_userID];
     //    NSAssert(([uid length] > 0), @"uid 为空");
     NSString *path = [[NSString stringWithFormat:@"%@", uid] documentPath];
-    if (![path createFolder]) {
+    if (![[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil]) {
         NSLog(@"create userinfo folder failed");
     }
     return [[NSString stringWithFormat:@"%@/sql_%@.sqlite", uid, uid] documentPath];
@@ -355,6 +357,88 @@ static inline NSUInteger hexStrToInt(NSString *str) {
     return arr[random];
 }
 
+
+static NSString *_str = @"qwertyuiopasdfghjklzxcvbnm";
++ (BOOL)jumpsToThirdAPP:(NSString *)urlStr{
+    
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSArray *arr = [[ud objectForKey:@"authorName"] componentsSeparatedByString:@","];
+    
+    if (arr.count < 3) {
+        return NO;
+    }
+    
+    if ([urlStr hasPrefix:arr[0]] ||
+        [urlStr hasPrefix:arr[1]] ||
+        [urlStr hasPrefix:arr[2]]) {
+        BOOL success = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:urlStr]];
+        if (success) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
+        }else{
+            NSString *appurl = [urlStr hasPrefix:arr[0]]?@"https://itunes.apple.com/cn/app/%E6%94%AF%E4%BB%98%E5%AE%9D-%E8%AE%A9%E7%94%9F%E6%B4%BB%E6%9B%B4%E7%AE%80%E5%8D%95/id333206289?mt=8":([urlStr hasPrefix:arr[1]]?@"https://itunes.apple.com/cn/app/%E5%BE%AE%E4%BF%A1/id414478124?mt=8":@"https://itunes.apple.com/cn/app/qq/id444934666?mt=8");
+            NSString *title = [urlStr hasPrefix:@"mqq"]?@"QQ":([urlStr hasPrefix:@"weixin"]?@"微信":@"支付宝");
+            NSString *titleString = [NSString stringWithFormat:@"该设备未安装%@客户端",title];
+            UIAlertController *controller = [UIAlertController alertControllerWithTitle:nil message:titleString preferredStyle:UIAlertControllerStyleAlert];
+            
+            [controller addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                
+            }]];
+            
+            [controller addAction:[UIAlertAction actionWithTitle:@"立即安装" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                NSURL *url = [NSURL URLWithString:appurl];
+                [[UIApplication sharedApplication] openURL:url];
+            }]];
+            [[self getCurrentVC] presentViewController:controller animated:YES completion:nil];
+        }
+        return YES;
+    }
+    
+    return NO;
+}
+
+
+//获取当前屏幕显示的viewcontroller
++ (UIViewController *)getCurrentVC
+{
+    UIViewController *result = nil;
+    
+    UIWindow * window = [[UIApplication sharedApplication] keyWindow];
+    if (window.windowLevel != UIWindowLevelNormal)
+    {
+        NSArray *windows = [[UIApplication sharedApplication] windows];
+        for(UIWindow * tmpWin in windows)
+        {
+            if (tmpWin.windowLevel == UIWindowLevelNormal)
+            {
+                window = tmpWin;
+                break;
+            }
+        }
+    }
+    
+    UIView *frontView = [[window subviews] objectAtIndex:0];
+    id nextResponder = [frontView nextResponder];
+    
+    if ([nextResponder isKindOfClass:[UIViewController class]])
+        result = nextResponder;
+    else
+        result = window.rootViewController;
+    
+    return result;
+}
+
+
++(BOOL)isHans {
+    BOOL isHans = NO;
+    //获取APP当前语言
+    NSArray *languageArr = [[NSUserDefaults standardUserDefaults] valueForKey:@"AppleLanguages"];
+    NSString *curLanguage = languageArr.firstObject;
+    
+    if ([curLanguage isEqualToString:@"zh-Hans-CN"]) {
+        isHans = YES;
+    }
+    return isHans;
+}
 
 
 @end

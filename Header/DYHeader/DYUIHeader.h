@@ -12,8 +12,10 @@
 #define CC_KeyWindow [[[UIApplication sharedApplication] delegate] window]
 
 #define kDevice_iPhoneX CGSizeEqualToSize(CGSizeMake(375, 812), [[UIScreen mainScreen] bounds].size)
-#define NavHeight (kDevice_iPhoneX?84:64)
-#define NavLandscapeHeight(isLandscape) ((kDevice_iPhoneX?84:64)-(isLandscape?20:0))
+#define NavHeight (kDevice_iPhoneX?88:64)
+#define NavLandscapeHeight(isLandscape) ((kDevice_iPhoneX?88:64)-(isLandscape?20:0))
+#define CC_TabbarHeight (kDevice_iPhoneX?83:49)
+#define CC_LandscapeTabbarHeight(isLandscape) ((kDevice_iPhoneX?83:49)-(isLandscape?20:0))
 
 
 #define mainColor kUIColorFromRGB(0x333333)

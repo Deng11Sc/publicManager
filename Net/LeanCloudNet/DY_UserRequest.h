@@ -24,8 +24,8 @@ typedef NS_ENUM(uint,DYUserMode)
 @property (nonatomic,assign)DYUserMode mode;
 
 
--(void)getUserInfo;
-
--(void)test;
+//-(void)getUserInfo;
+//
+//-(void)test;
 
 @end

@@ -144,6 +144,7 @@ static NSString *_img_host = @"http://p7qx76zj1.bkt.clouddn.com/";
                           CCUploadImage *upImage = [[CCUploadImage alloc] init];
                           upImage.isUpload = YES;
                           upImage.linkUrl = [_img_host stringByAppendingString:key];
+                          upImage.image = image;
                           [keys addObject:upImage];
 
                           if (self.successful) {

@@ -97,8 +97,8 @@
 
 
 #define AVOSCloudId @"5ac868f54773f7005d7590e3"
-#define SELF_USER_ID [NSString isEmptyString:[[NSUserDefaults standardUserDefaults] objectForKey:@"userinfo-objectId"]]?@"":[[NSUserDefaults standardUserDefaults] objectForKey:@"userinfo-objectId"]
-#define SELF_USER_NAME [NSString isEmptyString:[[NSUserDefaults standardUserDefaults] objectForKey:@"userinfo-objectId"]]?@"":[[NSUserDefaults standardUserDefaults] objectForKey:@"userinfo-nickName"]
+#define SELF_USER_ID [NSString isEmptyString:[[NSUserDefaults standardUserDefaults] objectForKey:@"userinfo-uniqueId"]]?@"":[[NSUserDefaults standardUserDefaults] objectForKey:@"userinfo-uniqueId"]
+#define SELF_USER_NAME [NSString isEmptyString:[[NSUserDefaults standardUserDefaults] objectForKey:@"userinfo-nickName"]]?@"":[[NSUserDefaults standardUserDefaults] objectForKey:@"userinfo-nickName"]
 
 #define CC_EMPTY(str1) ([NSString isEmptyString:str1]?@"":str1)
 
@@ -125,6 +125,7 @@
 
 //需要pod依赖才不会报错的依赖
 #import "CC_LeanCloudNet.h"
+#import "CC_LeanCloudUrl.h"
 #import "NSObject+FMDB.h"
 
 

@@ -21,7 +21,8 @@
         [customBtn setTitle:imageName forState:0];
         [customBtn setTitleColor:mainColor forState:0];
     }
-    customBtn.frame = CGRectMake(0, 0, 20, 20);
+    customBtn.frame = CGRectMake(0, 0, 44, 44 );
+    customBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     [customBtn addTarget:vc action:action forControlEvents:UIControlEventTouchUpInside];
     
     return customBtn;

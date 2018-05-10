@@ -13,4 +13,8 @@
 ///构成todo数据
 -(AVObject *)todoWithClassName:(NSString *)className model:(id)model;
 
+
+//获取model的其中一个key
+-(NSString *)getKeyWithIvar:(Ivar)ivar;
+
 @end

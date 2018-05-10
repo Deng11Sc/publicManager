@@ -104,11 +104,12 @@ static BOOL _isShow = YES;
     tipLabel.text = tip;
     [CC_KeyWindow addSubview:tipLabel];
     
-    CGSize size = [tipLabel sizeThatFits:CGSizeMake(CGFLOAT_MAX, 24)];
-    [tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    CGSize size = [tipLabel sizeThatFits:CGSizeMake(CGFLOAT_MAX, 44)];
+    [tipLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerX.centerY.equalTo(CC_KeyWindow);
         make.height.mas_equalTo(44);
         make.width.mas_equalTo(size.width+16);
+        make.width.mas_lessThanOrEqualTo(CC_Width-40);
     }];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

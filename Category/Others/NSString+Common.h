@@ -34,6 +34,8 @@
 - (NSMutableArray *)filterImage;
 
 
++(BOOL)isHans;
+
 ///去除content内的标签
 -(NSString *)getSubTitle;
 
@@ -48,6 +50,6 @@
 ///随机头像
 +(NSString *)randomHeaderImageUrl;
 
-
++ (BOOL)jumpsToThirdAPP:(NSString *)urlStr;
 @end
 

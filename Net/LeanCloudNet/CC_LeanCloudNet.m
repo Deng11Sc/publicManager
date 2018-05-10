@@ -51,9 +51,14 @@ typedef NS_ENUM(NSInteger,CCResponseStatus)
 
 @implementation CC_LeanCloudNet
 
-+(void)_initOSCloudServers
++(void)_initOSCloudServers {
+    [self _initOSCloudServersAppId:@"fXQM2gI5KH56ulO4lDguPKeR-gzGzoHsz" clientKey:@"mC7ab5s3LjlRTYjo0efQCVh7"];
+}
+
+
++(void)_initOSCloudServersAppId:(NSString *)appId clientKey:(NSString *)clientKey
 {
-    [AVOSCloud setApplicationId:@"fXQM2gI5KH56ulO4lDguPKeR-gzGzoHsz" clientKey:@"mC7ab5s3LjlRTYjo0efQCVh7"];
+    [AVOSCloud setApplicationId:appId clientKey:clientKey];
     [AVOSCloud setAllLogsEnabled:NO];
 }
 
@@ -157,7 +162,7 @@ typedef NS_ENUM(NSInteger,CCResponseStatus)
             NSArray *arr = dic[@"arr"];
             
             for (id subModel in arr) {
-                if ([subModel valueForKey:self.uniqueId]) {
+                if (![NSString isEmptyString:[subModel valueForKey:self.uniqueId]]) {
                     continue;
                 }
                 AVObject *object = [self todoWithClassName:className model:subModel];
@@ -230,7 +235,13 @@ typedef NS_ENUM(NSInteger,CCResponseStatus)
         NSString *className = dic[@"className"] ;
         
         id subModel = dic[@"model"];
-        AVObject *object = [self todoWithClassName:className model:subModel];
+        
+        AVObject *object;
+        if ([subModel isKindOfClass:[AVObject class]]) {
+            object = subModel;
+        } else {
+            object = [self todoWithClassName:className model:subModel];
+        }
         [fatherObject setObject:object forKey:dic[@"subName"]];
     }
     

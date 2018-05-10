@@ -6,7 +6,7 @@
 //  Copyright © 2018年 SongChang. All rights reserved.
 //
 
-#import "AVQuery.h"
+#import <AVOSCloud/AVQuery.h>
 
 @interface CCQuery : AVQuery
 

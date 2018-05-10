@@ -7,12 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <AVOSCloud.h>
+#import <AVOSCloud/AVOSCloud.h>
 
 #import "CCQuery.h"
-
-///表名
-#import "CC_LeanCloudUrl.h"
 
 ///创建网络表
 #import "GenerateTableManager.h"
@@ -35,6 +32,7 @@ typedef void (^dyfailure) (NSString *error,NSInteger code);
 
 ///初始化leanCloud
 +(void)_initOSCloudServers;
++(void)_initOSCloudServersAppId:(NSString *)appId clientKey:(NSString *)clientKey;
 
 /*
  0,设置URL

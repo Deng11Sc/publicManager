@@ -7,11 +7,13 @@
 //
 
 #import "DY_LoginController.h"
-#import <AVOSCloud/AVOSCloud.h>
-
 #import "DY_RegistController.h"
 
 #import "DY_InputLoginView.h"
+
+#import "DY_ThridLoginView.h"
+
+#import "CC_LoginRequest.h"
 
 /*
  用户名错误 202
@@ -22,10 +24,12 @@
 @interface DY_LoginController ()
 
 @property (nonatomic,strong)DY_InputLoginView *loginView;
+@property (nonatomic,strong)DY_ThridLoginView *thirdView;
 
 @property (nonatomic,strong)UIImageView *baseView;
 
 @property (nonatomic,strong)UIButton *trueBtn;
+@property (nonatomic,strong)UIButton *registBtn;
 ///注册时的返回按钮
 @property (nonatomic,strong)UIButton *backBtn;
 
@@ -81,16 +85,24 @@
     
     DY_InputLoginView *loginView = [[DY_InputLoginView alloc] init];
     loginView.backgroundColor =kUIColorFromRGB_Alpa(0xFFFFFF, 0.8);
-    [self.view addSubview:loginView];
+    [_baseView addSubview:loginView];
     _loginView = loginView;
     
-    [loginView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.centerY.equalTo(self.view).multipliedBy(0.8);
-        make.left.equalTo(self.view).offset(12);
-        make.height.mas_equalTo([DY_InputLoginView height]);
-    }];
-    
+    if (self.isLandscape) {
+        [_loginView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.view);
+            make.top.equalTo(@44);
+            make.left.equalTo(self.view).offset(12);
+            make.height.mas_equalTo([DY_InputLoginView height]);
+        }];
+    } else {
+        [_loginView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.view);
+            make.centerY.equalTo(self.view).multipliedBy(0.8);
+            make.left.equalTo(self.view).offset(12);
+            make.height.mas_equalTo([DY_InputLoginView height]);
+        }];
+    }
     
     loginView.tf1.placeholder = DYLocalizedString(@"Please enter account number", @"请输入账号");
     loginView.tf2.placeholder = DYLocalizedString(@"Please enter the password", @"请输入密码");
@@ -124,6 +136,7 @@
     [registBtn setTitleColor:kUIColorFromRGB(0x2089ff) forState:0];
     [registBtn addTarget:self action:@selector(dy_registAction) forControlEvents:UIControlEventTouchUpInside];
     [_baseView addSubview:registBtn];
+    _registBtn = registBtn;
     [registBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(loginView);
         make.width.equalTo(_baseView).multipliedBy(0.66);
@@ -144,6 +157,25 @@
         make.top.equalTo(baseView.mas_top).offset(20);
     }];
 
+    DY_ThridLoginView *thirdView = [[DY_ThridLoginView alloc] init];
+    thirdView.weakController = self;
+    @weakify(self)
+    thirdView.thridLoginSuccessBlock = ^(NSString *username,NSString *password) {
+        @strongify(self)        
+        self.user = username;
+        self.password = password;
+        [self loginInServer];
+    };
+    [self.view addSubview:thirdView];
+    _thirdView = thirdView;
+    
+    [thirdView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view);
+        make.bottom.equalTo(self.view);
+        make.width.mas_equalTo(CC_Width);
+        make.height.mas_equalTo(100);
+    }];
+    
 }
 
 - (void)dy_registAction {
@@ -170,7 +202,12 @@
     self.user = self.loginView.tf1.text;
     self.password = self.loginView.tf2.text;
     [self.loginView endEdit];
-    if (([NSString isEmptyString:self.loginView.tf1.text]) || ([NSString isEmptyString:self.loginView.tf2.text])) {
+    
+    [self loginInServer];
+}
+
+-(void)loginInServer {
+    if (([NSString isEmptyString:self.user]) || ([NSString isEmptyString:self.password])) {
         [NSObject showMessage:DYLocalizedString(@"Please enter the complete information", @"请输入完整的信息")];
         return;
     }
@@ -181,58 +218,46 @@
     
     ///登陆
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [AVUser logInWithUsernameInBackground:self.loginView.tf1.text password:self.loginView.tf2.text block:^(AVUser *user, NSError *error) {
+    CC_LoginRequest *request = [[CC_LoginRequest alloc] initLoginWithUserName:self.user password:self.password];
+    request.successful = ^(NSMutableArray *array, NSInteger code, id json) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        if (user != nil) {
-            NSLog(@"注册用户");
-            
-            DY_UserInfoModel *model = [[DY_UserInfoModel alloc] init];
-            model.nickName = user.username;
-            model.objectId = user.objectId;
-            model.sessionToken = user.sessionToken;
-            model.imageUrl = [user objectForKey:@"localData"][@"imageUrl"];
-            [DY_LoginInfoManager saveUserInfo:model];
-            
-            ///登录成功发送的通知
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"loginSuccess" object:nil];
-            if (self.loginSuccessBlk) {
-                self.loginSuccessBlk(YES);
-            }
-            
-            [self cancelAction];
-            
-        } else {
-            
-            NSLog(@"未注册用户");
-            switch ([error.userInfo[@"code"] integerValue]) {
-                case 211: ///该账号未注册
-                {
-                    [NSObject showMessage:DYLocalizedString(@"Account does not exist", @"账号不存在")];
-                }
-                    break;
-                case 210:
-                {
-                    ///密码错误
-                    [NSObject showMessage:DYLocalizedString(@"Wrong password", @"密码错误")];
-                }
-                    break;
-                default:
-                {
-                    [NSObject showMessage:DYLocalizedString(@"Login failed", @"登陆失败")];
-                }
-                    break;
-            }
+        if (self.loginSuccessBlk) {
+            self.loginSuccessBlk(YES);
         }
-    }];
-    
-}
+        [self cancelAction];
+    };
+    request.failure = ^(NSString *error, NSInteger code) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    };
+    [request loginRequest];
 
+}
 
 - (void)dealloc {
     NSLog(@"%@ -dealloc",[self class]);
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)setIsLandscape:(BOOL)isLandscape {
+    [super setIsLandscape:isLandscape];
+    
+    if (isLandscape) {
+        [_loginView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.view);
+            make.top.equalTo(@44);
+            make.left.equalTo(self.view).offset(12);
+            make.height.mas_equalTo([DY_InputLoginView height]);
+        }];
+    } else {
+        [_loginView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.view);
+            make.centerY.equalTo(self.view).multipliedBy(0.8);
+            make.left.equalTo(self.view).offset(12);
+            make.height.mas_equalTo([DY_InputLoginView height]);
+        }];
+    }
+    
+}
 
 
 @end

@@ -8,7 +8,6 @@
 
 #import "DY_LoginInfoManager.h"
 #import <objc/runtime.h>
-#import <AVOSCloud/AVOSCloud.h>
 
 @implementation DY_LoginInfoManager
 
@@ -90,8 +89,15 @@
             
             const char * propertyName = property_getName(property);
             
-            
             NSString *key = [NSString stringWithFormat:@"userinfo-%s",propertyName];
+            
+            if ([key isEqualToString:@"userinfo-config"]) {
+                
+                [model setValue:[DYUserConfig getConfig] forKey:@"config"];
+                
+                continue;
+            }
+
             if ([ud objectForKey:key]) {
                 [model setValue:[ud objectForKey:key] forKey:[NSString stringWithUTF8String:propertyName]];
             }
@@ -129,6 +135,7 @@
 -(void)logout {
     [AVUser logOut];
     [DY_LoginInfoManager clearUserInfo];
+    [DYUserConfig clearConfig];
 }
 
 @end

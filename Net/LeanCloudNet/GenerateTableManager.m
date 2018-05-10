@@ -21,9 +21,11 @@
     request.className = tableName;
     [request requestWithFatherClass:[model class]];
     request.successful = ^(NSMutableArray *array, NSInteger code, id json) {
-        if (!array.count) {
-            [self save:model name:tableName];
-        }
+//        if (!array.count) {
+//            [self save:model name:tableName];
+//        }
+        [self save:model name:tableName];
+
     };
     request.failure = ^(NSString *error, NSInteger code) {
         [self save:model name:tableName];
@@ -77,6 +79,12 @@
     
     CC_LeanCloudNet *net = [[CC_LeanCloudNet alloc] init];
     [net fatherModelWithClassName:tableName arr:@[model]];
+    net.successful = ^(NSMutableArray *array, NSInteger code, id json) {
+        id model = array.firstObject;
+        NSString *cql = [NSString stringWithFormat:@"delete from %@ where objectId='%@'", tableName,[model valueForKey:@"uniqueId"]];
+        CC_LeanCloudNet *requestCql = [[CC_LeanCloudNet alloc] init];
+        [requestCql startWithCql:cql];
+    };
     [net saveRequest];
 }
 
