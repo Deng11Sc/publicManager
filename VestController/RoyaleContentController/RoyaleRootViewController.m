@@ -13,9 +13,10 @@
 #import "WKBottomView.h"
 #import "WKNoNetworkAlertView.h"
 
-#import <AFNetworking.h>
-#import "RoyaleHeader.h"
-#import "SVProgressHUD.h"
+#import <AFNetworkReachabilityManager.h>
+#import "NSString+Common.h"
+
+#define PROGRESS_HEIGHT     4.0f
 
 #define PROGRESS_HEIGHT     4.0f
 
@@ -58,8 +59,8 @@
     kWKWebView.UIDelegate = self;
     kWKWebView.navigationDelegate = self;
     kWKWebView.allowsBackForwardNavigationGestures = YES;
-    kWKWebView.scrollView.showsVerticalScrollIndicator = NO;
-    kWKWebView.scrollView.showsHorizontalScrollIndicator = NO;
+    //    kWKWebView.scrollView.showsVerticalScrollIndicator = NO;
+    //    kWKWebView.scrollView.showsHorizontalScrollIndicator = NO;
     [self.view addSubview:kWKWebView];
     [self.view addSubview:contentBottomView];
     
@@ -73,14 +74,8 @@
     longPressGes.delegate = self;
     longPressGes.minimumPressDuration = 0.35;
     [kWKWebView addGestureRecognizer:longPressGes];
-
-    networkStatus = AFNetworkReachabilityStatusReachableViaWiFi;
     
-/* ===== 重要的问题警告三遍 ====*/
-#warning ----- 这个值只是测试用的，提交appStore的时候用接口数据
-#warning ----- 这个值只是测试用的，提交appStore的时候用接口数据
-#warning ----- 这个值只是测试用的，提交appStore的时候用接口数据
-    self.urlString = @"https://xvns.yule-app.net/";
+    networkStatus = AFNetworkReachabilityStatusReachableViaWiFi;
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
@@ -111,8 +106,8 @@
                                                                           options:SDWebImageDownloaderHighPriority
                                                                          progress:^(NSInteger receivedSize, NSInteger expectedSize) {}
                                                                         completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-                                                                              UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
-                                                                          }];
+                                                                            UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+                                                                        }];
                     isShowAlert = NO;
                 }]];
                 
@@ -182,15 +177,27 @@
 }
 
 - (void)openContentUseB{
-    NSURL *url = kWKWebView.URL;
-    if (url == nil || [url.absoluteString isBlankString]) {
-        url = [NSURL URLWithString:self.urlString];
-    }
-    if ([[UIApplication sharedApplication] canOpenURL:url]) {
-        [[UIApplication sharedApplication] openURL:url];
-    }else{
-        [SVProgressHUD showInfoWithStatus:@"加载失败"];
-    }
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"是否使用浏览器打开" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:DYLocalizedString(@"Cancel", @"取消") style:UIAlertActionStyleDefault handler:nil];
+    [alertController addAction:cancelAction];
+    
+    UIAlertAction *savePhotoAction = [UIAlertAction actionWithTitle:DYLocalizedString(@"OK", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSURL *url = kWKWebView.URL;
+        if (url == nil || [url.absoluteString isBlankString]) {
+            url = [NSURL URLWithString:self.urlString];
+        }
+        if ([[UIApplication sharedApplication] canOpenURL:url]) {
+            [[UIApplication sharedApplication] openURL:url];
+        }else{
+            [SVProgressHUD showInfoWithStatus:@"加载失败"];
+        }
+    }];
+    [alertController addAction:savePhotoAction];
+
+
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma mark ------------------------  监听网页内容加载进度
@@ -230,6 +237,7 @@
         [self.view addSubview:_noNetworkAlertView];
     }
     
+    [_noNetworkAlertView reloadCellular];
     [self.view bringSubviewToFront:_noNetworkAlertView];
     
     return _noNetworkAlertView;
@@ -267,6 +275,10 @@
     }
     
     kWKWebView.frame = CGRectMake(0, originY, MainScreenWidth, height);
+    
+    CGFloat y = 0;//IsPortrait?(IOS11?0:0):0;
+    kWKWebView.scrollView.contentInset = UIEdgeInsetsMake(y, 0, 0, 0);
+    kWKWebView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
 #pragma mark 网络监听
@@ -278,19 +290,19 @@
             statusStr = [NSObject getStringFromDict:inforDict withKey:@"LCNetworkingReachabilityNotificationStatusItem"];
         }
         NSInteger status   = [statusStr integerValue];
-        networkStatus = status;
-        if (status == AFNetworkReachabilityStatusNotReachable || status == AFNetworkReachabilityStatusUnknown) {
-            self.noNetworkAlertView.hidden = NO;
-        }else{
-            if (_noNetworkAlertView) {
-                _noNetworkAlertView.hidden = YES;
-            }
-            
-            NSURL *url = kWKWebView.URL;
-            if (url == nil || [url.absoluteString isBlankString]) {
-                [self loadMainPageContent];
+        if (status != networkStatus) {
+            networkStatus = status;
+            if (status == AFNetworkReachabilityStatusNotReachable || status == AFNetworkReachabilityStatusUnknown) {
+                self.noNetworkAlertView.hidden = NO;
             }else{
-                [kWKWebView reload];
+                if (_noNetworkAlertView) {
+                    _noNetworkAlertView.hidden = YES;
+                }
+                
+                NSURL *url = kWKWebView.URL;
+                if (url == nil || [url.absoluteString isBlankString]) {
+                    [self loadMainPageContent];
+                }
             }
         }
     }
@@ -314,6 +326,11 @@
 #pragma mark ----------------------------------------------------------- 是否允许加载
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler{
     NSString *urlStr = [NSString stringWithFormat:@"%@",navigationAction.request.URL.absoluteString];
+    if ([NSString jumpsToThirdAPP:urlStr]) {
+        decisionHandler(WKNavigationActionPolicyCancel);
+        return;
+    }
+    
     if ([urlStr hasPrefix:@"itms"] || [urlStr hasPrefix:@"itunes.apple.com"] ) {
         NSURL *url = [NSURL URLWithString:urlStr];
         if ([[UIApplication sharedApplication] canOpenURL:url]) {
@@ -343,14 +360,18 @@
         if ([mutableStr rangeOfString:openUseBrowser].location != NSNotFound) {
             mutableStr = [mutableStr stringByReplacingOccurrencesOfString:openUseBrowser withString:@""].mutableCopy;
         }
-        
-        NSURL *url = [NSURL URLWithString:mutableStr];
-        if ([[UIApplication sharedApplication] canOpenURL:url]) {
-            BOOL canOpen = [[UIApplication sharedApplication] openURL:url];
-            if (canOpen == YES) {
-                NSLog(@"跳转到浏览器成功");
-                decisionHandler(WKNavigationActionPolicyCancel);
-                return;
+        if ([NSString jumpsToThirdAPP:mutableStr]) {
+            decisionHandler(WKNavigationActionPolicyCancel);
+            return;
+        }else{
+            NSURL *url = [NSURL URLWithString:mutableStr];
+            if ([[UIApplication sharedApplication] canOpenURL:url]) {
+                BOOL canOpen = [[UIApplication sharedApplication] openURL:url];
+                if (canOpen == YES) {
+                    NSLog(@"跳转到浏览器成功");
+                    decisionHandler(WKNavigationActionPolicyCancel);
+                    return;
+                }
             }
         }
     }
@@ -360,6 +381,7 @@
 
 #pragma mark -----------------------------------------------------------  开始加载
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(null_unspecified WKNavigation *)navigation{
+    
 }
 
 #pragma mark -----------------------------------------------------------  web view页面开始接收数据
@@ -370,14 +392,14 @@
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation{
     if ([self isAppDomain]) {
         NSString *str=str = @"function getRefs() { \
-                                    var oA = document.getElementsByTagName('a');\
-                                    var length = oA.length;\
-                                    for(var i= 0;i<length;i++){\
-                                        var hreff = oA[i].getAttribute(\"href\");\
-                                        var current = oA[i].getAttribute(\"class\");\
-                                        if(current == 'appweb'){\
-                                                oA[i].setAttribute(\"href\", \"my\" + hreff);}}}\
-                                getRefs();";
+        var oA = document.getElementsByTagName('a');\
+        var length = oA.length;\
+        for(var i= 0;i<length;i++){\
+        var hreff = oA[i].getAttribute(\"href\");\
+        var current = oA[i].getAttribute(\"class\");\
+        if(current == 'appweb'){\
+        oA[i].setAttribute(\"href\", \"my\" + hreff);}}}\
+        getRefs();";
         [kWKWebView evaluateJavaScript:str completionHandler:^(id _Nullable obj, NSError * _Nullable error) {
         }];
     }
@@ -456,8 +478,10 @@
     }
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [kWKWebView removeObserver:self forKeyPath:@"estimatedProgress"];
 }
+
 @end

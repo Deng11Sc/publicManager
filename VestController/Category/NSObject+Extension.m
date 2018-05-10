@@ -7,7 +7,6 @@
 //
 
 #import "NSObject+Extension.h"
-#import "NSString+Extention.h"
 
 @implementation NSObject (Extension)
 
@@ -27,7 +26,7 @@
         string = [NSString stringWithFormat:@"%@",[dict objectForKey:key]];
     }
     
-    if (string == nil || [string isBlankString]) {
+    if (string == nil ) {
         string = @"";
     }
     
