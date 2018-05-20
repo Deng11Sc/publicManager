@@ -1,23 +1,23 @@
 //
-//  DY_ThridLoginView.m
+//  CCThridLoginView.m
 //  NearbyTask
 //
 //  Created by SongChang on 2018/5/7.
 //  Copyright © 2018年 SongChang. All rights reserved.
 //
 
-#import "DY_ThridLoginView.h"
+#import "CCThridLoginView.h"
 #import <UMShare/UMShare.h>
 #import "CCShareManager.h"
 
-@interface DY_ThridLoginView ()
+@interface CCThridLoginView ()
 
 @property (nonatomic,strong)UIButton *leftBtn;
 @property (nonatomic,strong)UIButton *rightBtn;
 
 @end
 
-@implementation DY_ThridLoginView
+@implementation CCThridLoginView
 
 - (instancetype)init
 {
@@ -41,14 +41,14 @@
     [self addSubview:rightBtn];
     
     UIButton *moreBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [moreBtn setTitle:@"more" forState:0];
+    [moreBtn setTitle:@"More third-party logins will be added" forState:0];
     moreBtn.titleLabel.font = [UIFont boldSystemFontOfSize:16];
     [self addSubview:moreBtn];
     
     [moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
         make.height.mas_equalTo(30);
-        make.width.mas_equalTo(100);
+//        make.width.mas_equalTo(100);
         make.bottom.equalTo(self);
     }];
     
@@ -145,7 +145,7 @@
         
         if (thirdModel) {
             //获取三方成功
-            DY_UserInfoModel *userModel = [[DY_UserInfoModel alloc] init];
+            CCUserInfoModel *userModel = [[CCUserInfoModel alloc] init];
             userModel.userSex = [thirdModel.unionGender isEqualToString:@"男"]?@"0":@"1";
             userModel.imageUrl = thirdModel.iconurl;
             userModel.email = nil;
@@ -153,7 +153,7 @@
             userModel.nickName = thirdModel.name;
             //记录用户名
             userModel.userName = thirdModel.openid;
-            CC_LoginRequest *request = [[CC_LoginRequest alloc] initRegistWithUserName:thirdModel.openid
+            CCLoginRequest *request = [[CCLoginRequest alloc] initRegistWithUserName:thirdModel.openid
                                                                               password:thirdModel.uid
                                                                          UserInfoModel:userModel];
             request.successful = ^(NSMutableArray *array, NSInteger code, id json) {

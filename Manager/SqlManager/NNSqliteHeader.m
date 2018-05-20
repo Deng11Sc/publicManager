@@ -13,7 +13,6 @@
 
 +(void)init_sql
 {
-    
 }
 
 +(void)clear

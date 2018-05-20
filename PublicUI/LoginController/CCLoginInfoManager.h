@@ -1,5 +1,5 @@
 //
-//  DY_LoginInfoManager.h
+//  CCLoginInfoManager.h
 //  MerryS
 //
 //  Created by SongChang on 2018/1/23.
@@ -7,19 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DY_UserInfoModel.h"
+#import "CCUserInfoModel.h"
 
 
 
-@interface DY_LoginInfoManager : NSObject
+@interface CCLoginInfoManager : NSObject
 
-+(DY_LoginInfoManager *)manager;
++(CCLoginInfoManager *)manager;
 
 //保存用户数据
-+ (void)saveUserInfo:(DY_UserInfoModel *)model;
++ (void)saveUserInfo:(CCUserInfoModel *)model;
 
 //获取用户数据
-+(DY_UserInfoModel *)getUserInfo;
++(CCUserInfoModel *)getUserInfo;
 
 //判断是否已登陆
 @property (nonatomic,assign)BOOL isLogin;

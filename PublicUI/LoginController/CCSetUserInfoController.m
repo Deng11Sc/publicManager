@@ -1,24 +1,24 @@
 //
-//  DY_SetUserInfoController.m
+//  CCSetUserInfoController.m
 //  NearbyTask
 //
 //  Created by SongChang on 2018/5/5.
 //  Copyright © 2018年 SongChang. All rights reserved.
 //
 
-#import "DY_SetUserInfoController.h"
+#import "CCSetUserInfoController.h"
 
-@interface DY_SetUserInfoController ()
+@interface CCSetUserInfoController ()
 
 @end
 
-@implementation DY_SetUserInfoController
+@implementation CCSetUserInfoController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self dy_initTableView];
+//    [self duinitTableView];
     
     [self dy_addSubviews];
 }

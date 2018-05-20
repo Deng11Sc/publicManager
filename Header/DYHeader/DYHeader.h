@@ -125,7 +125,7 @@
 
 //需要pod依赖才不会报错的依赖
 #import "CC_LeanCloudNet.h"
-#import "CC_LeanCloudUrl.h"
+#import "CCLeanCloudUrl.h"
 #import "NSObject+FMDB.h"
 
 

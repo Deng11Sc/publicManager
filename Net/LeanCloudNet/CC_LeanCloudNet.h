@@ -2,7 +2,7 @@
 //  CC_LeanCloudNet.h
 //  LiCai
 //
-//  Created by SongChang on 2018/4/22.
+//  Created by SongChang on 2018/3/22.
 //  Copyright © 2018年 SongChang. All rights reserved.
 //
 
@@ -52,9 +52,7 @@ typedef void (^dyfailure) (NSString *error,NSInteger code);
 -(void)startRequest;
 
 
-
-
-
+-(void)startRequestWithSuccessful:(dysuccessful)successful failure:(dyfailure)failure;
 
 
 /*
@@ -84,6 +82,7 @@ typedef void (^dyfailure) (NSString *error,NSInteger code);
 ///5,保存数据
 -(void)saveRequest;
 
+-(void)saveRequestWithSuccessful:(dysuccessful)successful failure:(dyfailure)failure;
 
 
 

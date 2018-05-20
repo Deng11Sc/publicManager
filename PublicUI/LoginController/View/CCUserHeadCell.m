@@ -1,14 +1,14 @@
 //
-//  DY_UserHeadCell.m
+//  CCUserHeadCell.m
 //  NearbyTask
 //
 //  Created by SongChang on 2018/5/5.
 //  Copyright © 2018年 SongChang. All rights reserved.
 //
 
-#import "DY_UserHeadCell.h"
+#import "CCUserHeadCell.h"
 
-@implementation DY_UserHeadCell
+@implementation CCUserHeadCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];

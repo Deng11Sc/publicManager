@@ -1,18 +1,18 @@
 //
-//  DY_InputLoginView.m
+//  CCInputLoginView.m
 //  SanCai
 //
 //  Created by SongChang on 2018/4/5.
 //  Copyright © 2018年 SongChang. All rights reserved.
 //
 
-#import "DY_InputLoginView.h"
+#import "CCInputLoginView.h"
 
-@interface DY_InputLoginView ()
+@interface CCInputLoginView ()
 
 @end
 
-@implementation DY_InputLoginView
+@implementation CCInputLoginView
 
 
 + (CGFloat)height {
@@ -33,7 +33,7 @@
 
 
 -(void)dy_initSubviews {
-    DY_InputTextField *tf1 = [[DY_InputTextField alloc] init];
+    CCInputTextField *tf1 = [[CCInputTextField alloc] init];
     tf1.placeholder = DYLocalizedString(@"Please enter account number", @"请输入账号");
     tf1.secureTextEntry = NO;
     tf1.backgroundColor = [UIColor clearColor];
@@ -60,7 +60,7 @@
         make.height.equalTo(@0.5);
     }];
     
-    DY_InputTextField *tf2 = [[DY_InputTextField alloc] init];
+    CCInputTextField *tf2 = [[CCInputTextField alloc] init];
     tf2.placeholder = DYLocalizedString(@"Please enter the password", @"请输入密码");
     tf2.secureTextEntry = YES;
     tf2.backgroundColor = [UIColor clearColor];

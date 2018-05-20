@@ -71,9 +71,7 @@
             
             NSDictionary *dict3 = @{NSForegroundColorAttributeName:ColorFromSixteen(0x175dfc, 1),
                                     NSFontAttributeName:[UIFont systemFontOfSize:14],
-                                    NSParagraphStyleAttributeName:style/*,
-                                    NSLinkAttributeName:[NSURL URLWithString:@"prefs:root=General&path=Network"],
-                                    NSUnderlineStyleAttributeName:@(NSUnderlineStyleNone)*/};
+                                    NSParagraphStyleAttributeName:style};
             NSAttributedString *string3 = [[NSAttributedString alloc] initWithString:str3 attributes:dict3];
             
             NSMutableAttributedString *string = [[NSMutableAttributedString alloc] init];

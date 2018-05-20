@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CCBaseController.h"
 
-@interface RoyaleRootViewController : UIViewController
+@interface RoyaleRootViewController : CCBaseController
 
 /**
  *  该参数是从接口获取到的站点域名

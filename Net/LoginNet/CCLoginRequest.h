@@ -1,5 +1,5 @@
 //
-//  CC_LoginRequest.h
+//  CCLoginRequest.h
 //  NearbyTask
 //
 //  Created by SongChang on 2018/5/7.
@@ -7,12 +7,12 @@
 //
 
 #import "CC_LeanCloudNet.h"
-#import "DY_UserInfoModel.h"
+#import "CCUserInfoModel.h"
 
-@interface CC_LoginRequest : CC_LeanCloudNet
+@interface CCLoginRequest : CC_LeanCloudNet
 
 //注册
-- (id)initRegistWithUserName:(NSString *)userName password:(NSString *)password UserInfoModel:(DY_UserInfoModel *)userInfo ;
+- (id)initRegistWithUserName:(NSString *)userName password:(NSString *)password UserInfoModel:(CCUserInfoModel *)userInfo ;
 
 //登录
 - (id)initLoginWithUserName:(NSString *)userName password:(NSString *)password;

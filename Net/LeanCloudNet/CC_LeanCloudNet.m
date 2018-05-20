@@ -2,7 +2,7 @@
 //  CC_LeanCloudNet.m
 //  LiCai
 //
-//  Created by SongChang on 2018/4/22.
+//  Created by SongChang on 2018/3/22.
 //  Copyright © 2018年 SongChang. All rights reserved.
 //
 
@@ -94,6 +94,13 @@ typedef NS_ENUM(NSInteger,CCResponseStatus)
 }
 
 #pragma mark ------------- 以下拉去数据的代码 -------------
+-(void)startRequestWithSuccessful:(dysuccessful)successful failure:(dyfailure)failure {
+    self.successful = successful;
+    self.failure = failure;
+    
+    [self startRequest];
+}
+
 - (void)startRequest {
     
     NSAssert(_fatherClassName, @"query没有对应表明，请设置表明，初始化方法调用");
@@ -147,6 +154,12 @@ typedef NS_ENUM(NSInteger,CCResponseStatus)
 
 
 #pragma mark ------------- 以下代码是保存代码 -------------
+-(void)saveRequestWithSuccessful:(dysuccessful)successful failure:(dyfailure)failure {
+    self.successful = successful;
+    self.failure = failure;
+    
+    [self saveRequest];
+}
 
 - (void)saveRequest {
     //Pointers 存储

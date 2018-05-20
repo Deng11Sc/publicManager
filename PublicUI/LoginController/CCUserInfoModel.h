@@ -1,5 +1,5 @@
 //
-//  DY_UserInfoModel.h
+//  CCUserInfoModel
 //  MerryS
 //
 //  Created by SongChang on 2018/1/22.
@@ -11,7 +11,7 @@
 //用户权限模块，如果不涉及权限，引用直接删除即可
 #import "DYUserConfig.h"
 
-@interface DY_UserInfoModel : NSObject
+@interface CCUserInfoModel : NSObject
 
 //这个是账号
 @property (nonatomic,strong)NSString *userName;

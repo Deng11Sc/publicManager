@@ -1,29 +1,29 @@
 //
-//  CC_LoginRequest.m
+//  CCLoginRequest.m
 //  NearbyTask
 //
 //  Created by SongChang on 2018/5/7.
 //  Copyright © 2018年 SongChang. All rights reserved.
 //
 
-#import "CC_LoginRequest.h"
+#import "CCLoginRequest.h"
 #import "CC_LeanCloudNet+Method.h"
-#import "DY_LoginInfoManager.h"
+#import "CCLoginInfoManager.h"
 
 #import "DYUserConfig.h"
 
-@interface CC_LoginRequest ()
+@interface CCLoginRequest ()
 
 @property (nonatomic,strong)AVUser *user;
 
 @end
 
-@implementation CC_LoginRequest
+@implementation CCLoginRequest
 
 
 
 //注册
-- (id)initRegistWithUserName:(NSString *)userName password:(NSString *)password UserInfoModel:(DY_UserInfoModel *)userInfo {
+- (id)initRegistWithUserName:(NSString *)userName password:(NSString *)password UserInfoModel:(CCUserInfoModel *)userInfo {
     self = [super init];
     if (self) {
         AVUser *user = [AVUser user];
@@ -68,7 +68,7 @@
         
         if (succeeded) {
             // 注册成功
-            DY_UserInfoModel *model = [[DY_UserInfoModel alloc] init];
+            CCUserInfoModel *model = [[CCUserInfoModel alloc] init];
             model.userName = _user.username;
             model.uniqueId = _user.objectId;
             model.sessionToken = _user.sessionToken;
@@ -115,14 +115,14 @@
         if (user != nil) {
             NSLog(@"登录用户");
             
-            DY_UserInfoModel *model = [[DY_UserInfoModel alloc] init];
+            CCUserInfoModel *model = [[CCUserInfoModel alloc] init];
             model.userName = user.username;
             model.uniqueId = user.objectId;
             model.sessionToken = user.sessionToken;
             model.imageUrl = [user objectForKey:@"localData"][@"imageUrl"];
             model.userSex = [user objectForKey:@"localData"][@"userSex"];
             model.nickName = [user objectForKey:@"localData"][@"nickName"];
-            [DY_LoginInfoManager saveUserInfo:model];
+            [CCLoginInfoManager saveUserInfo:model];
             
             [DYUserConfig saveConfigWithEndBlock:^(DYUserConfig *config) {
                 if (self.successful) {

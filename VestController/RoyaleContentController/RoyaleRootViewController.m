@@ -38,6 +38,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.hiddenNavigationBar = YES;
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkStatusDidChanged:) name:AFNetworkingReachabilityDidChangeNotification object:nil];
     
     contentBottomView = [[WKBottomView alloc] initWithFrame:CGRectMake(0, MainScreenHeight - TabBarHeight, MainScreenWidth, TabBarHeight)];

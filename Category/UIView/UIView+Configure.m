@@ -10,7 +10,7 @@
 
 @implementation UIView (Configure)
 
--(void)dy_configure {
+-(void)cc_configure {
     
 }
 
@@ -20,7 +20,7 @@
 
 @implementation UILabel (Configure)
 
--(void)dy_configure {
+-(void)cc_configure {
     self.font = [UIFont systemFontOfSize:14];
     self.textAlignment = NSTextAlignmentLeft;
     self.textColor = mainColor;
@@ -33,10 +33,10 @@
 
 @implementation UIButton (Configure)
 
--(void)dy_configure {
+-(void)cc_configure {
     self.titleLabel.font = [UIFont systemFontOfSize:14];
     [self setTitleColor:[UIColor whiteColor] forState:0];
-    self.backgroundColor = [UIColor whiteColor];
+    self.backgroundColor = [UIColor clearColor];
     [self.layer setCornerRadius:4];
     self.clipsToBounds = YES;
 }
@@ -46,7 +46,7 @@
 
 @implementation UIImage (Configure)
 
--(void)dy_configure {
+-(void)cc_configure {
     
 }
 
@@ -55,7 +55,7 @@
 
 @implementation UITextField (Configure)
 
--(void)dy_configure {
+-(void)cc_configure {
     self.font = [UIFont systemFontOfSize:14];
     self.textColor = mainColor;
     [self setValue:[UIFont systemFontOfSize:14] forKeyPath:@"_placeholderLabel.font"];

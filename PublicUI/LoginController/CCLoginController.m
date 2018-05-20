@@ -1,19 +1,19 @@
 //
-//  DY_LoginController.m
+//  CCLoginController.m
 //  MerryS
 //
 //  Created by SongChang on 2018/1/22.
 //  Copyright © 2018年 SongChang. All rights reserved.
 //
 
-#import "DY_LoginController.h"
-#import "DY_RegistController.h"
+#import "CCLoginController.h"
+#import "CCRegistController.h"
 
-#import "DY_InputLoginView.h"
+#import "CCInputLoginView.h"
 
-#import "DY_ThridLoginView.h"
+#import "CCThridLoginView.h"
 
-#import "CC_LoginRequest.h"
+#import "CCLoginRequest.h"
 
 /*
  用户名错误 202
@@ -21,10 +21,10 @@
  邮箱错误 203
  */
 
-@interface DY_LoginController ()
+@interface CCLoginController ()
 
-@property (nonatomic,strong)DY_InputLoginView *loginView;
-@property (nonatomic,strong)DY_ThridLoginView *thirdView;
+@property (nonatomic,strong)CCInputLoginView *loginView;
+@property (nonatomic,strong)CCThridLoginView *thirdView;
 
 @property (nonatomic,strong)UIImageView *baseView;
 
@@ -39,7 +39,7 @@
 
 @end
 
-@implementation DY_LoginController
+@implementation CCLoginController
 
 - (instancetype)init
 {
@@ -83,7 +83,7 @@
         make.edges.equalTo(self.view);
     }];
     
-    DY_InputLoginView *loginView = [[DY_InputLoginView alloc] init];
+    CCInputLoginView *loginView = [[CCInputLoginView alloc] init];
     loginView.backgroundColor =kUIColorFromRGB_Alpa(0xFFFFFF, 0.8);
     [_baseView addSubview:loginView];
     _loginView = loginView;
@@ -93,14 +93,14 @@
             make.centerX.equalTo(self.view);
             make.top.equalTo(@44);
             make.left.equalTo(self.view).offset(12);
-            make.height.mas_equalTo([DY_InputLoginView height]);
+            make.height.mas_equalTo([CCInputLoginView height]);
         }];
     } else {
         [_loginView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.view);
             make.centerY.equalTo(self.view).multipliedBy(0.8);
             make.left.equalTo(self.view).offset(12);
-            make.height.mas_equalTo([DY_InputLoginView height]);
+            make.height.mas_equalTo([CCInputLoginView height]);
         }];
     }
     
@@ -108,7 +108,7 @@
     loginView.tf2.placeholder = DYLocalizedString(@"Please enter the password", @"请输入密码");
     
     UIButton *trueBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [trueBtn dy_configure];
+    [trueBtn cc_configure];
     trueBtn.backgroundColor =kUIColorFromRGB_Alpa(0xFFFFFF, 0.8);
     [trueBtn.layer setCornerRadius:4];
     trueBtn.clipsToBounds = YES;
@@ -128,7 +128,7 @@
     
     ///注册
     UIButton *registBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [registBtn dy_configure];
+    [registBtn cc_configure];
     registBtn.backgroundColor =kUIColorFromRGB_Alpa(0xFFFFFF, 0.8);
     [registBtn.layer setCornerRadius:4];
     registBtn.clipsToBounds = YES;
@@ -149,7 +149,7 @@
     UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [cancelBtn setImage:[UIImage imageNamed:@"icon_home_letter_lottery_cancel"] forState:UIControlStateNormal];
     cancelBtn.contentMode = UIViewContentModeScaleAspectFit;
-    [cancelBtn addTarget:self action:@selector(cancelAction) forControlEvents:UIControlEventTouchUpInside];
+    [cancelBtn addTarget:self action:@selector(dy_actionBack) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:cancelBtn];
     [cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(44, 44));
@@ -157,7 +157,7 @@
         make.top.equalTo(baseView.mas_top).offset(20);
     }];
 
-    DY_ThridLoginView *thirdView = [[DY_ThridLoginView alloc] init];
+    CCThridLoginView *thirdView = [[CCThridLoginView alloc] init];
     thirdView.weakController = self;
     @weakify(self)
     thirdView.thridLoginSuccessBlock = ^(NSString *username,NSString *password) {
@@ -179,24 +179,9 @@
 }
 
 - (void)dy_registAction {
-    DY_RegistController *registVc = [[DY_RegistController alloc] init];
+    CCRegistController *registVc = [[CCRegistController alloc] init];
     [self.navigationController pushViewController:registVc animated:YES];
 }
-
-///退出
-- (void)cancelAction {
-    
-    [self dismissViewControllerAnimated:YES completion:^{
-        
-    }];
-
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 
 -(void)dy_trueAction {
     self.user = self.loginView.tf1.text;
@@ -212,19 +197,19 @@
         return;
     }
     
-    if ([DY_LoginInfoManager manager].isLogin == YES) {
+    if ([CCLoginInfoManager manager].isLogin == YES) {
         [AVUser logOut];
     }
     
     ///登陆
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    CC_LoginRequest *request = [[CC_LoginRequest alloc] initLoginWithUserName:self.user password:self.password];
+    CCLoginRequest *request = [[CCLoginRequest alloc] initLoginWithUserName:self.user password:self.password];
     request.successful = ^(NSMutableArray *array, NSInteger code, id json) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         if (self.loginSuccessBlk) {
             self.loginSuccessBlk(YES);
         }
-        [self cancelAction];
+        [self dy_actionBack];
     };
     request.failure = ^(NSString *error, NSInteger code) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -246,14 +231,14 @@
             make.centerX.equalTo(self.view);
             make.top.equalTo(@44);
             make.left.equalTo(self.view).offset(12);
-            make.height.mas_equalTo([DY_InputLoginView height]);
+            make.height.mas_equalTo([CCInputLoginView height]);
         }];
     } else {
         [_loginView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.view);
             make.centerY.equalTo(self.view).multipliedBy(0.8);
             make.left.equalTo(self.view).offset(12);
-            make.height.mas_equalTo([DY_InputLoginView height]);
+            make.height.mas_equalTo([CCInputLoginView height]);
         }];
     }
     

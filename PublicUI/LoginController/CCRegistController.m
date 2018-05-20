@@ -1,20 +1,20 @@
 //
-//  DY_RegistController.m
+//  CCRegistController.m
 //  SanCai
 //
 //  Created by SongChang on 2018/4/5.
 //  Copyright © 2018年 SongChang. All rights reserved.
 //
 
-#import "DY_RegistController.h"
+#import "CCRegistController.h"
 
-#import "DY_InputLoginView.h"
+#import "CCInputLoginView.h"
 
-#import "CC_LoginRequest.h"
+#import "CCLoginRequest.h"
 
-@interface DY_RegistController ()
+@interface CCRegistController ()
 
-@property (nonatomic,strong)DY_InputLoginView *loginView;
+@property (nonatomic,strong)CCInputLoginView *loginView;
 
 @property (nonatomic,strong)UIImageView *baseView;
 
@@ -24,7 +24,7 @@
 
 @end
 
-@implementation DY_RegistController
+@implementation CCRegistController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -49,7 +49,7 @@
         make.edges.equalTo(self.view);
     }];
     
-    DY_InputLoginView *loginView = [[DY_InputLoginView alloc] init];
+    CCInputLoginView *loginView = [[CCInputLoginView alloc] init];
     loginView.backgroundColor =kUIColorFromRGB_Alpa(0xFFFFFF, 0.8);
     [self.view addSubview:loginView];
     _loginView = loginView;
@@ -60,11 +60,11 @@
         make.centerX.equalTo(self.view);
         make.centerY.equalTo(self.view).multipliedBy(0.8);
         make.left.equalTo(self.view).offset(12);
-        make.height.mas_equalTo([DY_InputLoginView height]);
+        make.height.mas_equalTo([CCInputLoginView height]);
     }];
     
     UIButton *trueBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [trueBtn dy_configure];
+    [trueBtn cc_configure];
     trueBtn.backgroundColor =kUIColorFromRGB_Alpa(0xFFFFFF, 0.8);
     [trueBtn.layer setCornerRadius:4];
     trueBtn.clipsToBounds = YES;
@@ -99,11 +99,11 @@
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    DY_UserInfoModel *userModel = [[DY_UserInfoModel alloc] init];
+    CCUserInfoModel *userModel = [[CCUserInfoModel alloc] init];
     userModel.userSex = @"1";
     userModel.imageUrl = [NSString randomHeaderImageUrl];
     userModel.email = nil;
-    CC_LoginRequest *request = [[CC_LoginRequest alloc] initRegistWithUserName:self.loginView.tf1.text password:self.loginView.tf2.text UserInfoModel:userModel];
+    CCLoginRequest *request = [[CCLoginRequest alloc] initRegistWithUserName:self.loginView.tf1.text password:self.loginView.tf2.text UserInfoModel:userModel];
     request.successful = ^(NSMutableArray *array, NSInteger code, id json) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         [NSObject showMessage:DYLocalizedString(@"Succeeded", @"注册成功")];

@@ -1,20 +1,20 @@
 //
-//  DY_UserNormalCell.m
+//  CCUserNormalCell.m
 //  NearbyTask
 //
 //  Created by SongChang on 2018/5/5.
 //  Copyright © 2018年 SongChang. All rights reserved.
 //
 
-#import "DY_UserNormalCell.h"
+#import "CCUserNormalCell.h"
 
-@interface DY_UserNormalCell ()
+@interface CCUserNormalCell ()
 
 @property (nonatomic,strong)UIImageView *headImageView;
 
 @end
 
-@implementation DY_UserNormalCell
+@implementation CCUserNormalCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

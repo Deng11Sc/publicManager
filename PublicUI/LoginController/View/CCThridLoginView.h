@@ -1,5 +1,5 @@
 //
-//  DY_ThridLoginView.h
+//  CCThridLoginView.h
 //  NearbyTask
 //
 //  Created by SongChang on 2018/5/7.
@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CC_LoginRequest.h"
+#import "CCLoginRequest.h"
 
-@interface DY_ThridLoginView : UIView
+@interface CCThridLoginView : UIView
 
 
 @property (nonatomic,weak)UIViewController *weakController;

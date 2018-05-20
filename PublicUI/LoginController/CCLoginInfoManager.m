@@ -1,28 +1,28 @@
 //
-//  DY_LoginInfoManager.m
+//  CCLoginInfoManager.m
 //  MerryS
 //
 //  Created by SongChang on 2018/1/23.
 //  Copyright © 2018年 SongChang. All rights reserved.
 //
 
-#import "DY_LoginInfoManager.h"
+#import "CCLoginInfoManager.h"
 #import <objc/runtime.h>
 
-@implementation DY_LoginInfoManager
+@implementation CCLoginInfoManager
 
 
-+ (DY_LoginInfoManager *)manager
++ (CCLoginInfoManager *)manager
 {
-    static DY_LoginInfoManager *_manager = nil;
+    static CCLoginInfoManager *_manager = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _manager = [[DY_LoginInfoManager alloc] init];
+        _manager = [[CCLoginInfoManager alloc] init];
     });
     return _manager;
 }
 
-+ (void)saveUserInfo:(DY_UserInfoModel *)model
++ (void)saveUserInfo:(CCUserInfoModel *)model
 {
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     
@@ -46,7 +46,7 @@
 
 ///清除用户信息
 +(void)clearUserInfo {
-    DY_UserInfoModel *model = [[DY_UserInfoModel alloc] init];
+    CCUserInfoModel *model = [[CCUserInfoModel alloc] init];
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     
     unsigned int propertyCount = 0;
@@ -71,12 +71,12 @@
 }
 
 
-+(DY_UserInfoModel *)getUserInfo
++(CCUserInfoModel *)getUserInfo
 {
     AVUser *currentUser = [AVUser currentUser];
     if (currentUser != nil) {
 
-        DY_UserInfoModel *model = [[DY_UserInfoModel alloc] init];
+        CCUserInfoModel *model = [[CCUserInfoModel alloc] init];
         NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
         
         unsigned int propertyCount = 0;
@@ -134,7 +134,7 @@
 
 -(void)logout {
     [AVUser logOut];
-    [DY_LoginInfoManager clearUserInfo];
+    [CCLoginInfoManager clearUserInfo];
     [DYUserConfig clearConfig];
 }
 

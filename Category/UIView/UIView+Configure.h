@@ -12,7 +12,7 @@
 ///初始化UIView
 @interface UIView (Configure)
 
--(void)dy_configure;
+-(void)cc_configure;
 
 @end
 
@@ -21,7 +21,7 @@
 ///初始化Label
 @interface UILabel (Configure)
 
--(void)dy_configure;
+-(void)cc_configure;
 
 @end
 
@@ -30,7 +30,7 @@
 ///初始化UIButton
 @interface UIButton (Configure)
 
--(void)dy_configure;
+-(void)cc_configure;
 
 @end
 
@@ -40,7 +40,7 @@
 ///初始化UIImage
 @interface UIImage (Configure)
 
--(void)dy_configure;
+-(void)cc_configure;
 
 @end
 
@@ -49,7 +49,7 @@
 ///初始化UIImage
 @interface UITextField (Configure)
 
--(void)dy_configure;
+-(void)cc_configure;
 
 @end
 

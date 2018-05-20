@@ -1,5 +1,5 @@
 //
-//  DY_UserHeadCell.h
+//  CCUserHeadCell.h
 //  NearbyTask
 //
 //  Created by SongChang on 2018/5/5.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DY_UserHeadCell : UITableViewCell
+@interface CCUserHeadCell : UITableViewCell
 
 @end

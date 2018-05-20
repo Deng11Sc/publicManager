@@ -1,5 +1,5 @@
 //
-//  DY_UserNormalCell.h
+//  CCUserNormalCell.h
 //  NearbyTask
 //
 //  Created by SongChang on 2018/5/5.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DY_UserNormalCell : UITableViewCell
+@interface CCUserNormalCell : UITableViewCell
 
 @property (nonatomic,strong)NSString *imageUrl;
 

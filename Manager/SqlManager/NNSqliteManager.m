@@ -201,7 +201,7 @@
     
     [[self getQueue:sql_tableName] inDatabase:^(FMDatabase * _Nonnull db) {
         
-        NSString *createTable = [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ ('Sort' INTEGER PRIMARY KEY AUTOINCREMENT , 'Version' TEXT , 'SaveTime' TEXT ",sql_tableName];
+        NSString *createTable = [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ ('Sort' INTEGER PRIMARY KEY AUTOINCREMENT , 'Version' TEXT , 'SaveTime' INTEGER ",sql_tableName];
         
         unsigned int count = 0;
         Ivar *ivarList = class_copyIvarList(c, &count);

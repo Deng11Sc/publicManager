@@ -6,11 +6,11 @@
 //  Copyright © 2018年 SongChang. All rights reserved.
 //
 
-#define User_config @"user_config"
+#define User_config @"User_config"
 
 #import "DYUserConfig.h"
 
-#import "DY_LoginInfoManager.h"
+#import "CCLoginInfoManager.h"
 
 @implementation DYUserConfig
 
@@ -42,7 +42,7 @@
             configModel.userId = SELF_USER_ID;
             
             CC_LeanCloudNet *saveRequest = [[CC_LeanCloudNet alloc] init];
-            [saveRequest fatherModelWithClassName:@"_User" arr:@[[DY_LoginInfoManager getUserInfo]]];
+            [saveRequest fatherModelWithClassName:@"_User" arr:@[[CCLoginInfoManager getUserInfo]]];
             [saveRequest pointerModelsWithClassName:User_config model:configModel subName:@"config"];
             saveRequest.successful = ^(NSMutableArray *array, NSInteger code, id json) {
                 NSLog(@"successfully");
@@ -62,7 +62,7 @@
                 model.liveIsCert = @1;
             }
             
-            [DY_LoginInfoManager getUserInfo].config = model;
+            [CCLoginInfoManager getUserInfo].config = model;
             
             if (endBlock) {
                 endBlock(model);

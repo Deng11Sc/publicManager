@@ -38,7 +38,10 @@ static char *_reportButton;
     self.tableView.tableFooterView = baseView;
     
     self.reportButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.reportButton dy_configure];
+    self.reportButton.titleLabel.font = [UIFont systemFontOfSize:14];
+    [self.reportButton setTitleColor:[UIColor whiteColor] forState:0];
+    [self.reportButton.layer setCornerRadius:4];
+    self.reportButton.clipsToBounds = YES;
     self.reportButton.backgroundColor =CC_CustomColor_2594D2;
     [self.reportButton setTitle:DYLocalizedString(@"Report", @"举报") forState:0];
     [baseView addSubview:self.reportButton];
@@ -61,7 +64,7 @@ static char *_reportButton;
     [self.dataArray addObject:DYLocalizedString(@"Infringement", nil)];
     [self.dataArray addObject:DYLocalizedString(@"Information that causes user discomfort", nil)];
 
-    [self dy_initTableView];
+    [self duinitTableView];
 }
 
 

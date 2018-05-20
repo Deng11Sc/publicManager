@@ -6,9 +6,9 @@
 //  Copyright © 2018年 SongChang. All rights reserved.
 //
 
-#import "DY_BaseController.h"
+#import "CCBaseController.h"
 
-@interface DY_ReportController : DY_BaseController
+@interface DY_ReportController : CCBaseController
 
 @property (nonatomic,strong)NSString *reportId;
 
