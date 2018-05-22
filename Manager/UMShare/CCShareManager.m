@@ -11,7 +11,7 @@
 
 @interface CCShareManager ()
 
-@property (nonatomic,strong)id currentController;
+@property (nonatomic,weak)__weak id currentController;
 
 @end
 
@@ -104,7 +104,9 @@
                                                @(UMSocialPlatformType_WechatTimeLine),
                                                @(UMSocialPlatformType_AlipaySession),
                                                ]];
+    @weakify(self)
     [UMSocialUIManager showShareMenuViewInWindowWithPlatformSelectionBlock:^(UMSocialPlatformType platformType, NSDictionary *userInfo) {
+        @strongify(self)
         // 根据获取的platformType确定所选平台进行下一步操作
         switch (platformType) {
             case UMSocialPlatformType_QQ: {

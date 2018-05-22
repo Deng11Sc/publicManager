@@ -35,7 +35,10 @@
         
         const char * propertyName = property_getName(property);
         
-        [ud setObject:[model valueForKey:[NSString stringWithFormat:@"%s",propertyName]] forKey:[NSString stringWithFormat:@"userinfo-%s",propertyName]];
+        NSString *key = [NSString stringWithFormat:@"%s",propertyName];
+        if (![key isEqualToString:@"config"]) {
+            [ud setObject:[model valueForKey:key] forKey:[NSString stringWithFormat:@"userinfo-%s",propertyName]];
+        }
     }
     [ud synchronize];
     

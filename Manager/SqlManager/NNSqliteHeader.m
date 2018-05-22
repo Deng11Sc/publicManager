@@ -8,11 +8,13 @@
 
 #import "NNSqliteHeader.h"
 #import "NNSqliteManager.h"
+#import "CCSqliteHeader.h"
 
 @implementation NNSqliteHeader
 
 +(void)init_sql
 {
+    [CCSqliteHeader init_sql];
 }
 
 +(void)clear

@@ -116,6 +116,7 @@ typedef NS_ENUM(NSInteger,CCResponseStatus)
                 if (self.fatherClass) {
                     id model = [[self.fatherClass alloc] initWithDictionary:dic];
                     [dataArray addObject:model];
+                    
                 } else {
                     [dataArray addObject:dic];
                 }

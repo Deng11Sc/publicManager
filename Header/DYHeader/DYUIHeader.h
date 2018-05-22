@@ -13,6 +13,7 @@
 
 #define kDevice_iPhoneX CGSizeEqualToSize(CGSizeMake(375, 812), [[UIScreen mainScreen] bounds].size)
 #define NavHeight (kDevice_iPhoneX?88:64)
+#define StatusBarHeight (kDevice_iPhoneX?44:20)
 #define NavLandscapeHeight(isLandscape) ((kDevice_iPhoneX?88:64)-(isLandscape?20:0))
 #define CC_TabbarHeight (kDevice_iPhoneX?83:49)
 #define CC_LandscapeTabbarHeight(isLandscape) ((kDevice_iPhoneX?83:49)-(isLandscape?20:0))

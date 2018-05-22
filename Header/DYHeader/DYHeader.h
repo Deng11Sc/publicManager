@@ -14,7 +14,6 @@
 #define CC_SCREEN_MIN MIN(CC_Height,CC_Width)
 #define CC_SCREEN_MAX MAX(CC_Height,CC_Width)
 
-
 /** 定义版本判定 */
 #define iOS7_Later ([UIDevice currentDevice].systemVersion.floatValue >= 7.0f)
 #define iOS8_Later ([UIDevice currentDevice].systemVersion.floatValue >= 8.0f)
@@ -99,6 +98,7 @@
 #define AVOSCloudId @"5ac868f54773f7005d7590e3"
 #define SELF_USER_ID [NSString isEmptyString:[[NSUserDefaults standardUserDefaults] objectForKey:@"userinfo-uniqueId"]]?@"":[[NSUserDefaults standardUserDefaults] objectForKey:@"userinfo-uniqueId"]
 #define SELF_USER_NAME [NSString isEmptyString:[[NSUserDefaults standardUserDefaults] objectForKey:@"userinfo-nickName"]]?@"":[[NSUserDefaults standardUserDefaults] objectForKey:@"userinfo-nickName"]
+#define SELF_USER_IMAGEURL [NSString isEmptyString:[[NSUserDefaults standardUserDefaults] objectForKey:@"userinfo-imageUrl"]]?@"":[[NSUserDefaults standardUserDefaults] objectForKey:@"userinfo-imageUrl"]
 
 #define CC_EMPTY(str1) ([NSString isEmptyString:str1]?@"":str1)
 
